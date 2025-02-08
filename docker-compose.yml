@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./Backend
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./Backend/database.sqlite:/app/database.sqlite  # Monter la base SQLite
+    ports:
+      - "5001:5000"  # Exposer le backend sur le port 5001
+
+  frontend:
+    build: ./Frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"  # Exposer le frontend sur le port 8080
+
+  db:
+    image: alpine
+    container_name: sqlite-db
+    volumes:
+      - ./Backend/database.sqlite:/app/database.sqlite  # Monter le fichier SQLite
+      - sqlite_data:/data  # Volume persistant pour la base
+    restart: always
+    command: [ "sh", "-c", "while true; do sleep 3600; done" ]  # Garder le conteneur actif
+
+volumes:
+  sqlite_data:  # Volume persistant pour la base SQLite
+
