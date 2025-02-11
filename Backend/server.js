@@ -62,8 +62,8 @@ app.post("/api/users", (req, res) => {
 });
 
 // Démarrer le serveur
-app.listen(port, () => {
-  console.log(`🚀 Serveur démarré sur http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`🚀 Serveur démarré sur http://0.0.0.0:${port}`);
 });
 
 
